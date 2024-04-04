@@ -1,8 +1,15 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../providers/AuthProvider";
+import { Result } from "postcss";
 
 
 
 const Register = () => {
+
+    const {createUser}= useContext(AuthContext);
+    // console.log(authInfo);
+
     const handleRegister = (e) => {
         e.preventDefault();
         const name = e.target.name.value;
@@ -10,8 +17,24 @@ const Register = () => {
         const password = e.target.password.value;
         console.log(name, email, password);
 
+
+        //create user in firebase
+        createUser(email, password)
+        .then( result => {
+            console.log(result.user)
+        })
+        .catch(error => {
+            console.error(error);
+        })
+
+
     }
-     return (
+
+
+
+
+
+    return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content space-y-8  flex-col ">
 
@@ -28,7 +51,7 @@ const Register = () => {
                             <label className="label">
                                 <span className="label-text">Name</span>
                             </label>
-                            <input type="text" name="name" placeholder="Your Name" className="input input-bordered"  />
+                            <input type="text" name="name" placeholder="Your Name" className="input input-bordered" />
                         </div>
                         <div className="form-control">
                             <label className="label">
